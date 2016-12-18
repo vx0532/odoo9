@@ -1,0 +1,244 @@
+0.# add-apt-repository ppa:ubuntu-wine/ppa 相当于Debian,打开 /etc/apt/sources.list ：
+deb http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu trusty main 
+deb-src http://ppa.launchpad.net/ubuntu-wine/ppa/ubuntu trusty main
+1. 更改apt源：nano /etc/apt/sources.list
+改为：
+
+deb http://dl.google.com/linux/deb/ stable main
+
+deb http://mirrors.163.com/debian/ jessie main non-free contrib
+deb http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+deb http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie-updates main non-free contrib
+deb-src http://mirrors.163.com/debian/ jessie-backports main non-free contrib
+deb http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+deb-src http://mirrors.163.com/debian-security/ jessie/updates main non-free contrib
+
+deb http://<favourite-cran-mirror>/bin/linux/debian jessie-cran3/
+
+1.1 安装丢失的无线固件：
+sudo apt update
+sudo apt install firmware-brcm80211 firmware-realtek
+1.2 安装 谷歌chromsudo
+apt-get update
+sudo apt-get install google-chrome-stable
+
+2 安装中文输入法
+2.1 sudo apt-get install fcitx fcitx-config-gtk fcitx-sunpinyin fcitx-googlepinyin fcitx-module-cloudpinyin
+2.2 sudo apt-get install fcitx-table-all
+2.3 重启Debian，打开fcitx，选择Pinyin，并添加;
+
+3. 配置JDK：
+1)下载JDK :
+
+      点击链接在Oracle官网下载JDK7u55:JDKu55 下载JDK1.8/1.9 最新版
+
+    2)把jdk压缩文件放到/usr/local文件夹下
+
+       mv 存放jdk压缩文件的文件夹绝对路径/jdk-7u55-linux-i586.tar.gz /usr/local
+
+    3)解压jdk压缩文件到/usr/local
+
+      cd /usr/local
+
+      tar -zxvf jdk-7u55-linux-i586.tar.gz
+
+    4)修改解压后文件夹的名字
+
+      mv jdk1.7.0_55 jdk
+
+    5)给/usr/local/jdk文件夹授权
+
+     cd /usr/local
+
+     chown -R currentAccount:currentAccountGroup jdk/
+
+    6)配置环境变量(需要root权限)
+
+     vim /etc/profile
+
+      在文件的最后追加
+
+      export JAVA_HOME=/usr/local/jdk/ 
+      export JRE_HOME=/usr/local/jdk/jre 
+      export LASSPATH=.:$CLASSPATH:$JAVA_HOME/lib:$JRE_HOME/lib 
+      export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin 
+      配置完成后 执行source /etc/profile使配置文件生效
+
+
+   7)把已经安装好的jdk设置成默认jdk(需要root权限)
+      update-alternatives --install /usr/bin/java java /usr/local/jdk/bin/java 300 
+      update-alternatives --install /usr/bin/jar jar /usr/local/jdk/bin/jar 300 
+      update-alternatives --install /usr/bin/javah javah /usr/local/jdk/bin/javah 300 
+      update-alternatives --install /usr/bin/javap javap /usr/local/jdk/bin/javap 300 
+      update-alternatives --config java  选择jdk路径为/usr/local/jdk/bin/java为默认jdk 
+   8)验证jdk是否安装成功
+
+    java -version
+
+   得到以下信息表示安装成功
+
+   java version "1.7.0_55"
+   Java(TM) SE Runtime Environment (build 1.7.0_55-b13)
+   Java HotSpot(TM) Client VM (build 24.55-b03, mixed mode)
+4. 安装gcc和make
+apt-get install gcc automake autoconf libtool make
+5. 更新python：
+5.1 下载python最新安装包：python官网tgz/tat.gz
+5.2、解压安装包
+# tar -zxvf Python-3.3.0.tgz 
+
+5.3、进入解压后目录
+
+# cd Python-3.3.0 
+
+5.4、创建安装目录
+# mkdir /usr/local/python3.3 
+
+5.5、编译安装
+# ./configure --prefix=/usr/local/python3.3  
+
+5.6、执行
+# make
+# make install 
+5.7、此时已完成新版本的安装，但由于老版本还在系统中，所以需要将原来/usr/bin/python链接改为新的连接：
+
+先修改老的连接，执行
+
+# mv /usr/bin/python /usr/bin/python_bak
+
+再建立新连接
+# ln -s /usr/local/python3.3/bin/python3.3 /usr/bin/python 
+
+其中：ln是L的小写不要写成I
+
+5.8、查询python版本，执行：
+
+# python 
+
+6. 安装eclipse 和 PyDev
+6.1 登陆eclipse官网，下载eclipse*.tar.gz，解压：tar -zxvf *.tar.gz; 
+6.2 进入解压文件，双击eclipse-inst;选择安装环境(java/others);
+6.3 运行eclipse；help--install new software--add--
+6.4 安装完成Pydev；windows--Preferences--Pydev--Interpreters--Python Interpreter;
+6.5 Main Menu给eclipse添加new item;
+
+6'安装html,javascript,xml,ajax等插件
+6'.1 运行eclipse；help--install new software--add- 
+(Name:WebPlugin;Location:http://pydev.org/updates);
+6'.2 选择最后一个点开;一路next，安装成功;
+
+7. 安装qq：(安装不成功)
+一共用了两步：
+第一步
+sudo apt-get install ia32-libs ia32-libs-gtk linux32 lib32asound2
+其中linux32 lib32asound2可能会自动安装。
+
+第二步：下载安装 utubun的QQ deb包。http://www.longene.org/forum/viewtopic.php?f=6&t=4700
+sudo dpkg -i --force-all *.deb
+8. 安装hadoop2.7+Spark1.4
+8.1hadoop伪分布式搭建    其实官网有比较详实的说明，英语好的可以直接看官网，地址
+8.1.1、安装JDK1.7   这个省略，官网显示1.6可以，但是我用openjdk1.6出了异常，JDK1.6没试，直接用了JDK1.7
+配置好环境变量
+vi /etc/profile
+export JAVA_HOME=/usr/local/jdk1.7.0_79
+export CLASSPATH=.:$JAVE_HOME/lib.tools.jar
+export PATH=$PATH:$JAVA_HOME/bin
+添加完后执行命令使配置生效
+source /etc/profile
+8.1.2、安装ssh、rsync,（以ubuntu为例）
+  $ sudo apt-get install ssh
+  $ sudo apt-get install rsync
+8.1.3、下载hadoop编译包，镜像地址(http://www.apache.org/dyn/closer.cgi/hadoop/common/)（国内镜像竟然比US的还慢，不能忍，注意2.7的编译包为64位）
+查是32还是64位的办法
+cd hadoop-2.7.0/lib/native
+file libhadoop.so.1.0.0
+hadoop-2.7.0/lib/native/libhadoop.so.1.0.0: ELF 64-bit LSB shared object, AMD x86-64, version 1 (SYSV), not stripped
+8.1.4、配置环境变量
+hadoop配置文件指定java路径
+etc/hadoop/hadoop-env.sh
+export JAVA_HOME=/usr/local/jdk1.7.0_79
+系统环境变量 nano /etc/profile
+export HADOOP_HOME=/usr/local/hadoop-2.7.0
+export PATH=$PATH:$HADOOP_HOME/bin
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+后两条不加会出现
+You have loaded library /usr/hadoop/hadoop-2.7.0/lib/native/libhadoop.so.1.0.0 which might have disabled stack guard. The VM will try to fix the stack guard now.
+It's highly recommended that you fix the library with 'execstack -c <libfile>', or link it with '-z noexecstack'.
+添加完后执行命令使配置生效
+source /etc/profile
+执行命令查看是否成功
+hadoop version
+8.1.5、修改hadoop配置文件 
+etc/hadoop/core-site.xml:
+<configuration>
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+
+etc/hadoop/hdfs-site.xml:
+<configuration>
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+</configuration>
+8.1.6、设置hadoop ssh无密码访问
+  $ ssh-keygen -t dsa -P '' -f ~/.ssh/id_dsa
+  $ cat ~/.ssh/id_dsa.pub >> ~/.ssh/authorized_keys
+  $ export HADOOP\_PREFIX=/usr/local/hadoop-2.7.0
+8.1.7、格式化节点和启动hadoop
+$ bin/hdfs namenode -format
+$ sbin/start-dfs.sh
+打开浏览器 http://localhost:50070/看是否成功
+hdfs配置：username最好和当前用户名相同，不然会可能出现权限问题
+  $ bin/hdfs dfs -mkdir /user
+  $ bin/hdfs dfs -mkdir /user/<username>
+8.1.8、yarn配置
+etc/hadoop/mapred-site.xml:
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+</configuration>
+
+etc/hadoop/yarn-site.xml:
+<configuration>
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+</configuration>
+启动yarn
+
+$ sbin/start-yarn.sh
+http://localhost:8088/查看是否成功
+至此hadoop单节点伪分布式安装配置完成
+
+8.2、spark安装配置
+
+spark的安装相对就要简单多了
+
+8.2.1、首先下载，地址 http://spark.apache.org/downloads.html
+因为我之前已经有hadoop了所以选择第二个下载
+8.2.2、下载解压后进入目录
+cd conf
+cp spark-env.sh.template spark-env.sh
+cp spark-defaults.conf.template spark-defaults.conf
+vi conf/spark-env.sh
+最后添加
+export HADOOP_HOME=/usr/local/hadoop-2.7.0
+export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+export SPARK_DIST_CLASSPATH=$(hadoop classpath)
+最后一个需要hadoop添加了环境变量才行。
+官网配置中没有前两个配置，我运行例子时总报错，找不到hdfs jar 包。
+8.2.3、回到解压目录运行示例
+./bin/run-example SparkPi 10
+成功则到此配置完成
+想运行python或者scala请参考官网http://spark.apache.org/docs/latest/
+
