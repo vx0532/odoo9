@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+    <act_window id="action_color_task"
+      name="图片红色度"
+      res_model="color.task"
+      view_mode="tree,form" />
+
+    <menuitem id="menu_color"
+      name="图片色价量化值"
+      parent="Punch.menu_punch_task"
+      sequence="10" 
+      action="action_color_task" />
+
+    <record id="view_tree_color_task" model="ir.ui.view">
+      <field name="name">Color Task Tree</field>
+      <field name="model">color.task</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="create_uid"/>
+          <field name="create_date"/>
+        </tree>
+      </field>
+    </record>
+
+    <record id="view_form_color_task" model="ir.ui.view">
+      <field name="name">Color Task Form</field>
+      <field name="model">color.task</field>
+      <field name="arch" type="xml">
+	<form >
+            <group>
+                <group name="group_left">
+                    <field name="datafile" />
+                </group>
+                <group name="group_right">
+                    <button name="colorread" type="object" string="计算量化色价值" class="oe_highlight"/>
+                </group>
+            </group>
+            <group>
+              <field name="redvalue" readonly="1"/>
+            </group>
+
+	</form>
+      </field>
+    </record>
+
+  </data>
+</openerp>

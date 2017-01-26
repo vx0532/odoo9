@@ -7,7 +7,7 @@
       view_mode="tree,form" />
 
     <menuitem id="menu_punch_task"
-      name="海力加App"
+      name="京诚检测"
       parent=""
       sequence="30"/>
 
@@ -43,6 +43,10 @@
                     <img src="/Punch/static/src/img/xx.png" style="width: 100%; height: auto;max-width: 100%; display: block; "/>
                 </group>
             </group>
+            <group>
+              <field name="picture" widget="image" readonly="1" class="my_image"/>
+            </group>
+
             <group name="group_top">
                 <group name="group_left">
                     <field name="duty_on" readonly="1"/>
@@ -51,9 +55,6 @@
                     <field name="duty_off" readonly="1"/>
                 </group>
 	    </group>
-            <group>
-              <field name="picture" widget="image" readonly="1" class="my_image"/>
-            </group>
 
 	</form>
       </field>
